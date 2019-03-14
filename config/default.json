@@ -1,0 +1,5 @@
+{
+    "landing_path": "data\\landing",
+    "zip_path": "data\\zips",
+    "remove_zips": false
+}
