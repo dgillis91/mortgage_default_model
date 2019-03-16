@@ -5,10 +5,13 @@ Created on Fri Mar 15 20:15:45 2019
 @author: dgill
 """
 
+from collections import defaultdict
+
 class Loan:
+    __payment_status = set(list(range(4)))
     def __init__(self, loan_identifier):
         self._loan_identifier = loan_identifier
-        self._payment_status_count = self._default_payment_status_count()
+        self._payment_status_count = defaultdict(int)
         self._is_foreclosed = False
         
     @property
@@ -21,13 +24,16 @@ class Loan:
     def is_foreclosed(self, value):
         self._is_foreclosed = value
     
+    def is_trackable_payment_status(self, status):
+        return status in Loan.__payment_status
+    
     def increment_payment_status_count(self, status):
-        self._payment_status_count[status] += 1
+        self._payment_status_count[str(status)] += 1
         
-    def _default_payment_status_count(self):
-        counts = {}
-        for i in range(4):
-            counts[str(i)] = 0
+    def as_data_record(self, sep='|'):
+        return sep.join([
+            self._loan_identifier, self._is_foreclosed
+        ] + [v for k, v in self._payment_status_count.items()])
     
     def __ne__(self, other):
         return not self.__eq__(other)
