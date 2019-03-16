@@ -13,6 +13,7 @@ to update the logic for this to include REO.
 whether to remove the zip files when we extract. 
 * Automate data pull from FNMA. Can potentially be done with scrapy. 
 * Pythonize repo - add "required", etc.
+* Validate data transformations.
 
 ## Resources
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_File_layout.pdf
