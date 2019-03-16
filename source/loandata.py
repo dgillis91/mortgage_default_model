@@ -32,7 +32,7 @@ class Loan:
         
     def as_data_record(self, sep='|'):
         return sep.join([
-            self._loan_identifier, self._is_foreclosed
+            self._loan_identifier, str(self._is_foreclosed)
         ] + [v for k, v in self._payment_status_count.items()])
     
     def __ne__(self, other):

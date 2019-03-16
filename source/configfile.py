@@ -7,6 +7,7 @@ Created on Fri Mar 15 22:29:26 2019
 
 import os
 import json
+from dirutil import project_directory
 
 def get_config():
     config_path = os.path.join(project_directory(), 'config', 'default.json')
