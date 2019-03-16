@@ -8,6 +8,11 @@ foreclosure date. It's worth noting that this is the date the property went to
 sale. This DOES NOT work for REO property. Likely in the future, we will need
 to update the logic for this to include REO. 
 
+## TODO:
+* Update Extractor module to take arguments. For example, we need an arg for
+whether to remove the zip files when we extract. 
+* Automate data pull from FNMA. Can potentially be done with scrapy. 
+
 ## Resources
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_File_layout.pdf
 * https://loanperformancedata.fanniemae.com/lppub-docs/performance-sample-file.txt

@@ -52,18 +52,11 @@ if __name__ == '__main__':
     config_path = os.path.join(project_directory(), 'config', 'default.json')
     with open(config_path, 'r') as cfg_file:
         config = json.loads(cfg_file.read())
-    e = ZipExtractor()
+    extractor = ZipExtractor()
     p_path = project_directory()
-    #zips = os.path.join(p_path, config['zip_path'])
-    #print(zips)
+    zips = os.path.join(p_path, config['zip_path'])
     landing = os.path.join(p_path, config['landing_path'])
-    perf_path = os.path.join(landing, 'Performance_2007Q4.txt')
-    perf_arb_path = os.path.join(landing, 'arb_perf.txt')
-    #e.unzip_all(zips, landing, config['remove_zips'])
-    #sampler = ArbitraryFileSampler(perf_path, perf_arb_path)
-    #sampler.sample()
-    
-    
-    
+    print('[+] Extracting data files.')
+    extractor.unzip_all(zips, landing, config['remove_zips'])
     
         
