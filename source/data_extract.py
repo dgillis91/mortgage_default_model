@@ -8,7 +8,7 @@ Created on Wed Mar 13 19:55:13 2019
 import os
 from zipfile import ZipFile
 from dirutil import project_directory
-import json
+from configfile import get_config
 
 class Extractor:
     def __init__(self):
@@ -57,9 +57,7 @@ class ArbitraryFileSampler:
 
 if __name__ == '__main__':
     # ToDo: Add argparsing. See README. 
-    config_path = os.path.join(project_directory(), 'config', 'default.json')
-    with open(config_path, 'r') as cfg_file:
-        config = json.loads(cfg_file.read())
+    config = get_config()
     extractor = ZipExtractor()
     p_path = project_directory()
     zips = os.path.join(p_path, config['zip_path'])
