@@ -7,10 +7,6 @@ Created on Fri Mar 15 21:20:35 2019
 
 from loandata import Loan
 
-class PerformanceCounter:
-    def __init__(self, performance_file_path, acquisition_file_path):
-        self._explored_loans = {}
-
 def extract_performance_counts(performance_path, output, sep='|'):
     loan_dict = {}
     with open(performance_path, 'r') as performance:
