@@ -23,7 +23,13 @@ def extract_performance_counts(performance_path, output, sep='|'):
                 loan = Loan(loan_number)
                 loan_dict[loan_number] = loan
             update_loan(delinquency_status, foreclosure_date, loan)
-    write_performance_counts(output, loan_dict)
+    write_performance_counts(
+        output, loan_dict, sep, [
+            'loan_identifier', 'is_foreclosed',
+            'no_0_past_due_months', 'no_1_past_due_months',
+            'no_2_past_due_months', 'no_3_past_due_months'
+        ]
+    )
 
 def parse_performance_record_to_tuple(record):
     return (record[0], record[10], record[15])
@@ -34,10 +40,12 @@ def update_loan(delinquency_status, foreclosure_date, loan):
     if foreclosure_date != '':
         loan.is_foreclosed = True
 
-def write_performance_counts(path, data):
+def write_performance_counts(path, data, sep, headers):
     with open(path, 'w') as perf:
+        perf.write(sep.join(headers) + '\n')
         perf.writelines([
-            '{}\n'.format(loan.as_data_record()) for loan_number, loan in data.items()
+            '{}\n'.format(loan.as_data_record()) 
+            for loan_number, loan in data.items()
         ])
     
 if __name__ == '__main__':
