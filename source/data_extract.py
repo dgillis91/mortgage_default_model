@@ -31,13 +31,39 @@ class ZipExtractor:
         
     def _remove(self, filename):
         os.remove(filename)
-        
+     
+class ArbitraryFileSampler:
+    def __init__(self, from_path, to_path, sep='|'):
+        self._from_path = from_path
+        self._to_path = to_path
+        self._sep = sep
+
+    def sample(self):
+        sampled = set()
+        with open(self._from_path, 'r') as _in, open(self._to_path, 'w') as out:
+            for line in _in:
+                parsed = line.split(self._sep)
+                if parsed[0] not in sampled:
+                    out.write(line)
+                    sampled.add(parsed[0])
+            
+
 if __name__ == '__main__':
-    with open(os.path.join(project_directory(), 'config', 'default.json'), 'r') as cfg_file:
+    config_path = os.path.join(project_directory(), 'config', 'default.json')
+    with open(config_path, 'r') as cfg_file:
         config = json.loads(cfg_file.read())
     e = ZipExtractor()
     p_path = project_directory()
-    zips = os.path.join(p_path, config['zip_path'])
-    print(zips)
+    #zips = os.path.join(p_path, config['zip_path'])
+    #print(zips)
     landing = os.path.join(p_path, config['landing_path'])
-    e.unzip_all(zips, landing, config['remove_zips'])
+    perf_path = os.path.join(landing, 'Performance_2007Q4.txt')
+    perf_arb_path = os.path.join(landing, 'arb_perf.txt')
+    #e.unzip_all(zips, landing, config['remove_zips'])
+    #sampler = ArbitraryFileSampler(perf_path, perf_arb_path)
+    #sampler.sample()
+    
+    
+    
+    
+        
