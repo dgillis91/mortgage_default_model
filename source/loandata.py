@@ -5,13 +5,11 @@ Created on Fri Mar 15 20:15:45 2019
 @author: dgill
 """
 
-from collections import defaultdict
-
 class Loan:
-    __payment_status = set(list(range(4)))
+    __payment_status = set([str(x) for x in range(4)])
     def __init__(self, loan_identifier):
         self._loan_identifier = loan_identifier
-        self._payment_status_count = defaultdict(int)
+        self._payment_status_count = self._default_status_count()
         self._is_foreclosed = False
         
     @property
@@ -34,6 +32,11 @@ class Loan:
         return sep.join([
             self._loan_identifier, str(self._is_foreclosed)
         ] + [v for k, v in self._payment_status_count.items()])
+    
+    def _default_status_count(self):
+        d = {}
+        for stat in range(4):
+            d[str(stat)] = 0
     
     def __ne__(self, other):
         return not self.__eq__(other)
