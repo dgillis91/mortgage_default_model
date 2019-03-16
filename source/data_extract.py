@@ -33,6 +33,13 @@ class ZipExtractor:
         os.remove(filename)
      
 class ArbitraryFileSampler:
+    '''
+    XXX:
+    Do not use this for anything practical. I wrote it extract the first
+    instance of a loan in the performance data, because loading the full
+    dataset was too intense. It would be fairly useful to have it perform
+    a uniform random sample.
+    '''
     def __init__(self, from_path, to_path, sep='|'):
         self._from_path = from_path
         self._to_path = to_path
@@ -49,6 +56,7 @@ class ArbitraryFileSampler:
             
 
 if __name__ == '__main__':
+    # ToDo: Add argparsing. See README. 
     config_path = os.path.join(project_directory(), 'config', 'default.json')
     with open(config_path, 'r') as cfg_file:
         config = json.loads(cfg_file.read())
