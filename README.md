@@ -14,6 +14,8 @@ whether to remove the zip files when we extract.
 * Automate data pull from FNMA. Can potentially be done with scrapy. 
 * Pythonize repo - add "required", etc.
 * Validate data transformations.
+* Specify data types in config file. Will have to parse columns vs. types
+in code.
 
 ## Resources
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_File_layout.pdf
