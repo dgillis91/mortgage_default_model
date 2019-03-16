@@ -1,6 +1,7 @@
 {
     "landing_path": "data\\landing",
     "zip_path": "data\\zips",
+    "diw_path": "data\\diw",
     "remove_zips": false,
     "performance_headers": [
         "loan_identifier",
@@ -61,6 +62,14 @@
         "co_borrower_credit_score_at_origination",
         "mortgage_insurance_type",
         "relocation_mortgage_indicator"
+    ],
+    "parsed_performance_headers": [
+        "loan_identifier",
+        "is_foreclosed",
+        "no_0_past_due_months", 
+        "no_1_past_due_months",
+        "no_2_past_due_months", 
+        "no_3_past_due_months"
     ],
     "data_sep": "|"
 }
