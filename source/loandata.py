@@ -31,12 +31,13 @@ class Loan:
     def as_data_record(self, sep='|'):
         return sep.join([
             self._loan_identifier, str(self._is_foreclosed)
-        ] + [v for k, v in self._payment_status_count.items()])
+        ] + [str(v) for k, v in self._payment_status_count.items()])
     
     def _default_status_count(self):
         d = {}
         for stat in range(4):
             d[str(stat)] = 0
+        return d
     
     def __ne__(self, other):
         return not self.__eq__(other)
