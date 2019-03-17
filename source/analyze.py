@@ -59,13 +59,13 @@ if __name__ == '__main__':
     )
     plt.close('all')
     
-    pair_data = acquisition_data[[
+    pair_cols = [
         'original_interest_rate', 'original_upb', 'original_loan_term',
         'original_ltv', 'original_combined_ltv', 'original_dti',
-        'borrower_credit_score_at_origination', 'is_foreclosed',
-        'no_0_past_due_months', 'no_1_past_due_months'
-    ]].dropna().sample(10000)
-    pair = sns.pairplot(pair_data, hue='is_foreclosed')
+        'borrower_credit_score_at_origination'      
+    ]
+    pair_data = acquisition_data[pair_cols + ['is_foreclosed']].dropna().sample(10000)
+    pair = sns.pairplot(pair_data, hue='is_foreclosed', vars=pair_cols)
     pair.savefig(
         os.path.join(analysis_path, 'pairs')        
     )
