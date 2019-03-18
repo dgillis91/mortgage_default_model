@@ -86,7 +86,7 @@ if __name__ == '__main__':
     )
     merged_acq_and_perf.to_csv(
         os.path.join(project_path, config['diw_path'], 'diw.txt'),
-        sep=config['data_sep']
+        sep=config['data_sep'], index=False
     )
     
     
