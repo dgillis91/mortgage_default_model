@@ -31,7 +31,7 @@ if __name__ == '__main__':
         os.path.join(project_path, config['diw_path'], 'diw.txt'),
         sep=config['data_sep']        
     )
-
+l
     # Foreclosure frequency
     cnt = sns.countplot(x='is_foreclosed', data=acquisition_data)
     cnt.get_figure().savefig(os.path.join(analysis_path, 'fc_stat_freq'))
