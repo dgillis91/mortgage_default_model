@@ -71,5 +71,22 @@
         "no_2_past_due_months", 
         "no_3_past_due_months"
     ],
+    "num_predictors": [
+        "original_combined_ltv",
+        "borrower_credit_score_at_origination",
+        "original_dti"
+    ],
+    "cat_predictors": [
+        "first_time_home_buyer_indicator",
+        "loan_purpose"
+    ],
+    "predictors": [
+        "original_combined_ltv",
+        "borrower_credit_score_at_origination",
+        "original_dti",
+        "first_time_home_buyer_indicator",
+        "loan_purpose"
+    ],
+    "target": "is_foreclosed",
     "data_sep": "|"
 }

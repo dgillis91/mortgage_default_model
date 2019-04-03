@@ -55,14 +55,16 @@ def merge_acquisition_and_performance(acquisition_path, performance_path,
     acquisition_data = pd.read_csv(
         acquisition_path, sep=sep, names=acq_headers
     )
+    print('[+] acq len {}'.format(len(acquisition_data.index)))
     perf_data = pd.read_csv(
         performance_path, sep=sep, names=perf_headers        
     )
+    print('[+] perf len {}'.format(len(perf_data.index)))
     merged_data = pd.merge(
-        acquisition_data, performance_data, on='loan_identifier'        
+        acquisition_data, perf_data, on='loan_identifier'        
     )
     return merged_data
-    
+
 if __name__ == '__main__':
     config = get_config()
     project_path = project_directory()

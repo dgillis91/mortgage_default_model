@@ -17,6 +17,8 @@ whether to remove the zip files when we extract.
 * Specify data types in config file. Will have to parse columns vs. types
 in code.
 * Refactor extract_performance_counts - method too long. 
+* Try with a few different model types. Document the things I've tried already,
+and replicate them.
 
 ## Resources
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_File_layout.pdf
