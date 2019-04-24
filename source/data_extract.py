@@ -10,10 +10,12 @@ from zipfile import ZipFile
 from dirutil import project_directory
 from configfile import get_config
 
+
 class Extractor:
     def __init__(self):
         pass
-    
+
+
 class ZipExtractor:
     __zip_ext = '.zip'
     
