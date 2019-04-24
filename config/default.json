@@ -1,7 +1,7 @@
 {
-    "landing_path": "data\\landing",
-    "zip_path": "data\\zips",
-    "diw_path": "data\\diw",
+    "landing_path": "data/landing",
+    "zip_path": "data/zips",
+    "diw_path": "data/diw",
     "remove_zips": false,
     "performance_headers": [
         "loan_identifier",
