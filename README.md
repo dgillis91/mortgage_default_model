@@ -17,6 +17,10 @@ and replicate them.
 * Train random forest model. 
 * Train KNN model. 
 * Rebuild Neural net without one hot encoding of the target. 
+* Confusion matrix.
+* Look at potentially modeling shorter delinquencies. 
+* Create more boxenplots. 
+
 
 ## Resources
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_File_layout.pdf
