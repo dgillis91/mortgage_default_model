@@ -10,15 +10,13 @@ to update the logic for this to include REO.
 
 ## TODO:
 * Update Extractor module to take arguments. For example, we need an arg for
-whether to remove the zip files when we extract. 
-* Automate data pull from FNMA. Can potentially be done with scrapy. 
-* Pythonize repo - add "required", etc.
-* Validate data transformations.
-* Specify data types in config file. Will have to parse columns vs. types
-in code.
-* Refactor extract_performance_counts - method too long. 
+whether to remove the zip files when we extract.
 * Try with a few different model types. Document the things I've tried already,
 and replicate them.
+* Recreate performance counts from the last implementation of FNMA model.
+* Train random forest model. 
+* Train KNN model. 
+* Rebuild Neural net without one hot encoding of the target. 
 
 ## Resources
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_File_layout.pdf
