@@ -9,8 +9,10 @@ import os
 import json
 from dirutil import project_directory
 
-def get_config():
-    config_path = os.path.join(project_directory(), 'config', 'default.json')
+
+def get_config(filename='default'):
+    config_file = filename + '.json'
+    config_path = os.path.join(project_directory(), 'config', config_file)
     with open(config_path, 'r') as cfg_file:
         config = json.loads(cfg_file.read())
     return config
