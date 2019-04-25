@@ -28,10 +28,12 @@ import pandas as pd
 from dirutil import project_directory
 from configfile import get_config
 
+
 def clean_nulls(df, cols):
     for col in cols:
         df[col].fillna((df[col].mean()), inplace=True)
-        
+
+
 class DataFrameSelector(BaseEstimator, TransformerMixin):
     def __init__(self, attribute_names):
         self.attribute_names = attribute_names
@@ -39,6 +41,7 @@ class DataFrameSelector(BaseEstimator, TransformerMixin):
         return self
     def transform(self, X):
         return X[self.attribute_names].values
+
 
 class SamplerFactory:
     def get_instance(sample_method, *args, **kwargs):
@@ -48,7 +51,8 @@ class SamplerFactory:
             return RandomUnderSampler(*args, **kwargs)
         else:
             raise ValueError('invalid parameter: {}'.format(sample_method))
-            
+
+
 def false_positive(true_values, predicted_values):
     acc_df = pd.DataFrame(
         data=np.column_stack((true_values, predicted_values)),
@@ -57,6 +61,7 @@ def false_positive(true_values, predicted_values):
     total_samples = len(acc_df.index)
     positives = len(acc_df[(acc_df.true_val == 0) & (acc_df.pred == 1)].index)
     return positives / total_samples
+
 
 def false_negative(true_values, predicted_values):
     acc_df = pd.DataFrame(
@@ -87,11 +92,10 @@ if __name__ == '__main__':
     
     # Pull out the predictors & target
     model_data = performance_data[predictors + [target]]
-    #del performance_data
+    # del performance_data
     
     # Apply Transforms
-    
-    
+
     # Clean nulls and map f/c stat to bits
     clean_nulls(model_data, predictors)
     mapping = {True: 1, False: 0}
@@ -101,7 +105,7 @@ if __name__ == '__main__':
     model_data = model_data.values.astype(np.float32)
     # Scale predictors.
     scaler = MinMaxScaler(feature_range=(0, 1))
-    model_data[:, 0:3] = scaler.fit_transform(model_data[:,0:3])
+    model_data[:, 0:3] = scaler.fit_transform(model_data[:, 0:3])
     
     # Pull out 90% for training. Ensure data is shuffled. 
     full_train, full_test = train_test_split(model_data, train_size=.9)
@@ -141,6 +145,3 @@ if __name__ == '__main__':
         epochs=100, verbose=1, batch_size=128, 
         validation_data=(predictor_test, target_test)
     )
-
-
-    
