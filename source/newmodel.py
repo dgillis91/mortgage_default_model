@@ -14,7 +14,7 @@ from dirutil import project_directory
 from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
 
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import SMOTE
@@ -46,11 +46,13 @@ if __name__ == '__main__':
         predictors, targets, train_size=0.9        
     )
 
-    sampler = SamplerFactory.get_instance('under', ratio=1)
-    res_predictor, res_target = sampler.fit_sample(
+    sampler = SamplerFactory.get_instance('under', ratio=1, return_indices=True)
+    _, __, res_indices = sampler.fit_sample(
         pred_train, target_train
     )
-    
+
+    res_train_pred, res_train_target = pred_train[res_indices], target_train[res_indices]
+
     inputs = Input(shape=(predictors.shape[1],))
     x = Dense(64, activation='relu')(inputs)
     x = Dense(64, activation='relu')(x)
@@ -61,7 +63,7 @@ if __name__ == '__main__':
         optimizer='sgd', loss='binary_crossentropy', metrics=['accuracy']
     )
     model.fit(
-        res_train, res_train, 
+        res_train_pred, res_train_target,
         epochs=20, verbose=1, batch_size=256,
         validation_data=(pred_test, target_test)
     )
