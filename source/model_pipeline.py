@@ -11,8 +11,6 @@ from configfile import get_config
 
 import pandas as pd, numpy as np
 
-from sklearn.cross_validation import train_test_split
-
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import SMOTE
 
@@ -21,14 +19,18 @@ from sklearn.preprocessing import Imputer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline, FeatureUnion
 
+
 class DataFrameSelector(BaseEstimator, TransformerMixin):
     def __init__(self, attribute_names):
         self.attribute_names = attribute_names
+
     def fit(self, X, y=None):
         return self
+
     def transform(self, X):
         return X[self.attribute_names].values
-    
+
+
 class StandardLabelEncoder(BaseEstimator, TransformerMixin):
     def __init__(self, *args, **kwargs):
         self.encoder = LabelEncoder(*args, **kwargs)
@@ -37,6 +39,7 @@ class StandardLabelEncoder(BaseEstimator, TransformerMixin):
         return self
     def transform(self, X):
         return self.encoder.transform(X)
+
 
 class MultiColumnLabelEncoder:
     def __init__(self, *args, **kwargs):
@@ -50,7 +53,8 @@ class MultiColumnLabelEncoder:
         return data
     def fit_transform(self, X, y=None):
         return self.fit(X, y).transform(X)
-    
+
+
 class ReshapeTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, shape):
         self.shape = shape
@@ -59,13 +63,17 @@ class ReshapeTransformer(BaseEstimator, TransformerMixin):
     def transform(self, X):
         return X.reshape(self.shape)
 
+
 class DataTypeTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, dtype):
         self.dtype = dtype
+
     def fit(self, X, y=None):
         return self
+
     def transform(self, X):
         return X.astype(self.dtype)
+
 
 if __name__ == '__main__':
     config = get_config()
