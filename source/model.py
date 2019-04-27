@@ -5,10 +5,6 @@ Created on Sun Mar 17 19:41:06 2019
 @author: dgill
 """
 
-# !!!
-# Switch to one hot and add more variables. 
-
-# Had pretty good luck with KNN - may circle back around to this.
 import os
 
 from keras.models import Model
@@ -131,10 +127,10 @@ if __name__ == '__main__':
         target_test.astype(np.int8).reshape((-1,1))
     )
     
-    #sampler = SamplerFactory.get_instance(sample_method, ratio=1)
-    #res_predictor_train, res_target_train = sampler.fit_sample(
-    #    predictor_train, target_train
-    #)
+    sampler = SamplerFactory.get_instance(sample_method, ratio=1)
+    res_predictor_train, res_target_train = sampler.fit_sample(
+        predictor_train, target_train
+    )
     
     res_predictor_train = predictor_train
     res_target_train = target_train
