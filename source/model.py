@@ -14,7 +14,7 @@ import os
 from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
 
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
@@ -78,7 +78,7 @@ def false_negative(true_values, predicted_values):
     negatives = len(acc_df[(acc_df.true_val == 1) & (acc_df.pred == 0)].index)
     return negatives / total_samples
 
-            
+
 if __name__ == '__main__':
     sample_method = 'under'
     
