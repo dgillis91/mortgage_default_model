@@ -48,7 +48,7 @@ class SamplerFactory:
 
     @staticmethod
     def get_instance(sample_method, *args, **kwargs):
-        sampler = SamplerFactory.__sampler.get(sample_method, default=None)
+        sampler = SamplerFactory.__sampler.get(sample_method)
         if sampler is not None:
             return sampler(*args, **kwargs)
         else:
@@ -97,26 +97,14 @@ if __name__ == '__main__':
     target_train = full_train[:, 3]    
     target_test = full_test[:, 3]
     
-    # Encode the targets
-    encoder = OneHotEncoder()
-    target_train = encoder.fit_transform(
-        target_train.astype(np.int8).reshape((-1,1))
-    )
-    target_test = encoder.fit_transform(
-        target_test.astype(np.int8).reshape((-1,1))
-    )
-    
     sampler = SamplerFactory.get_instance(sample_method, ratio=1)
     res_predictor_train, res_target_train = sampler.fit_sample(
         predictor_train, target_train
     )
     
-    res_predictor_train = predictor_train
-    res_target_train = target_train
-    
     inputs = Input(shape=(3,))
     x = Dense(64, activation='relu')(inputs)
-    predictions = Dense(2, activation='sigmoid')(x)
+    predictions = Dense(1, activation='sigmoid')(x)
     model = Model(inputs=inputs, outputs=predictions)
     
     model.compile(
@@ -124,6 +112,6 @@ if __name__ == '__main__':
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=100, verbose=1, batch_size=128, 
+        epochs=16, verbose=1, batch_size=128,
         validation_data=(predictor_test, target_test)
     )
