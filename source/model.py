@@ -13,7 +13,6 @@ import os
 
 from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
-from keras.utils import plot_model #TODO: Try this out
 
 from sklearn.cross_validation import train_test_split
 from imblearn.under_sampling import RandomUnderSampler
@@ -37,18 +36,25 @@ def clean_nulls(df, cols):
 class DataFrameSelector(BaseEstimator, TransformerMixin):
     def __init__(self, attribute_names):
         self.attribute_names = attribute_names
+
     def fit(self, X, y=None):
         return self
+
     def transform(self, X):
         return X[self.attribute_names].values
 
 
 class SamplerFactory:
+    __sampler = {
+        'over': SMOTE,
+        'under': RandomUnderSampler
+    }
+
+    @staticmethod
     def get_instance(sample_method, *args, **kwargs):
-        if sample_method == 'over':
-            return SMOTE(*args, **kwargs)
-        if sample_method == 'under':
-            return RandomUnderSampler(*args, **kwargs)
+        sampler = SamplerFactory.__sampler.get(sample_method, default=None)
+        if sampler is not None:
+            return sampler(*args, **kwargs)
         else:
             raise ValueError('invalid parameter: {}'.format(sample_method))
 
@@ -71,6 +77,7 @@ def false_negative(true_values, predicted_values):
     total_samples = len(acc_df.index)
     negatives = len(acc_df[(acc_df.true_val == 1) & (acc_df.pred == 0)].index)
     return negatives / total_samples
+
             
 if __name__ == '__main__':
     sample_method = 'under'
