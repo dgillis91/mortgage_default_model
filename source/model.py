@@ -55,38 +55,17 @@ class SamplerFactory:
             raise ValueError('invalid parameter: {}'.format(sample_method))
 
 
-def false_positive(true_values, predicted_values):
-    acc_df = pd.DataFrame(
-        data=np.column_stack((true_values, predicted_values)),
-        columns=['true_val', 'pred']
-    )
-    total_samples = len(acc_df.index)
-    positives = len(acc_df[(acc_df.true_val == 0) & (acc_df.pred == 1)].index)
-    return positives / total_samples
-
-
-def false_negative(true_values, predicted_values):
-    acc_df = pd.DataFrame(
-        data=np.column_stack((true_values, predicted_values)),
-        columns=['true_val', 'pred']        
-    )
-    total_samples = len(acc_df.index)
-    negatives = len(acc_df[(acc_df.true_val == 1) & (acc_df.pred == 0)].index)
-    return negatives / total_samples
-
-
 if __name__ == '__main__':
     sample_method = 'under'
-    
     project_path = project_directory()
-    config = get_config()
-    # todo: refactor all this crap
+    config = get_config('standard_model')
     train_pct = .9
+
     performance_data_path = os.path.join(
         project_path, config['diw_path'], 'diw.txt'
     )
     
-    performance_data = pd.read_csv(performance_data_path, 
+    performance_data = pd.read_csv(performance_data_path,
         sep=config['data_sep']
     )
     
