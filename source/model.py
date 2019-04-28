@@ -109,9 +109,8 @@ if __name__ == '__main__':
     )
     
     inputs = Input(shape=(3,))
-    x = Dense(64, activation='relu')(inputs)
-    x = Dense(64, activation='relu')(inputs)
-    x = Dense(64, activation='relu')(inputs)
+    x = Dense(16, activation='relu')(inputs)
+    x = Dense(16, activation='relu')(inputs)
     predictions = Dense(1, activation='sigmoid')(x)
     model = Model(inputs=inputs, outputs=predictions)
     
