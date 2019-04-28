@@ -12,11 +12,16 @@ class Loan:
     def __init__(self, loan_identifier):
         self._loan_identifier = loan_identifier
         self._payment_status_count = self._default_status_count()
+        self._age = 0
         self._is_foreclosed = False
         
     @property
     def loan_identifier(self):
         return self._loan_identifier
+
+    @property
+    def age(self):
+        return self._age
 
     @property
     def is_foreclosed(self):
@@ -31,11 +36,12 @@ class Loan:
     
     def increment_payment_status_count(self, status):
         self._payment_status_count[str(status)] += 1
-        
+        self._age += 1
+
     def as_data_record(self, sep='|'):
         return sep.join([
             self._loan_identifier, str(self._is_foreclosed)
-        ] + [str(v) for k, v in self._payment_status_count.items()])
+        ] + [str(v) for k, v in self._payment_status_count.items()] + [str(self.age)])
     
     def _default_status_count(self):
         d = {}
