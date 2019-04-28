@@ -12,6 +12,7 @@ from loandata import Loan
 from configfile import get_config
 from dirutil import project_directory
 
+
 def extract_performance_counts(performance_path, output, sep='|'):
     loan_dict = {}
     with open(performance_path, 'r') as performance:
@@ -33,14 +34,17 @@ def extract_performance_counts(performance_path, output, sep='|'):
         ]
     )
 
+
 def parse_performance_record_to_tuple(record):
-    return (record[0], record[10], record[15])
+    return record[0], record[10], record[15]
+
 
 def update_loan(delinquency_status, foreclosure_date, loan):
     if loan.is_trackable_payment_status(delinquency_status):
         loan.increment_payment_status_count(delinquency_status)
     if foreclosure_date != '':
         loan.is_foreclosed = True
+
 
 def write_performance_counts(path, data, sep, headers):
     with open(path, 'w') as perf:
@@ -49,7 +53,8 @@ def write_performance_counts(path, data, sep, headers):
             '{}\n'.format(loan.as_data_record()) 
             for loan_number, loan in data.items()
         ])
-        
+
+
 def merge_acquisition_and_performance(acquisition_path, performance_path, 
                                       acq_headers, perf_headers, sep='|'):
     acquisition_data = pd.read_csv(
@@ -64,6 +69,7 @@ def merge_acquisition_and_performance(acquisition_path, performance_path,
         acquisition_data, perf_data, on='loan_identifier'        
     )
     return merged_data
+
 
 if __name__ == '__main__':
     config = get_config()
@@ -90,5 +96,3 @@ if __name__ == '__main__':
         os.path.join(project_path, config['diw_path'], 'diw.txt'),
         sep=config['data_sep'], index=False
     )
-    
-    
