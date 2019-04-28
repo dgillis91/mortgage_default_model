@@ -69,12 +69,14 @@
         "no_0_past_due_months", 
         "no_1_past_due_months",
         "no_2_past_due_months", 
-        "no_3_past_due_months"
+        "no_3_past_due_months",
+        "age"
     ],
     "predictors": [
         "original_combined_ltv",
         "borrower_credit_score_at_origination",
-        "original_dti"
+        "original_dti",
+        "age"
     ],
     "target": "is_foreclosed",
     "data_sep": "|"
