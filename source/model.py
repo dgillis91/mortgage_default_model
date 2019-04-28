@@ -109,8 +109,8 @@ if __name__ == '__main__':
     )
     
     inputs = Input(shape=(4,))
-    x = Dense(16, activation='relu')(inputs)
-    x = Dense(16, activation='relu')(inputs)
+    x = Dense(64, activation='relu')(inputs)
+    x = Dense(64, activation='relu')(x)
     predictions = Dense(1, activation='sigmoid')(x)
     model = Model(inputs=inputs, outputs=predictions)
     
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=16, verbose=1, batch_size=128,
+        epochs=32, verbose=1, batch_size=64,
         validation_data=(predictor_test, target_test)
     )
 
