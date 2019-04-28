@@ -88,8 +88,8 @@ if __name__ == '__main__':
     # split train and test data
     model_data = model_data.values.astype(np.float32)
     # Scale predictors.
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    model_data[:, 0:3] = scaler.fit_transform(model_data[:, 0:3])
+    # scaler = MinMaxScaler(feature_range=(0, 1))
+    # model_data[:, 0:3] = scaler.fit_transform(model_data[:, 0:3])
     
     # Pull out 90% for training. Ensure data is shuffled.
     full_train, full_test = train_test_split(model_data, shuffle=True, test_size=.1)
@@ -98,6 +98,10 @@ if __name__ == '__main__':
     predictor_test = full_test[:, 0:3]
     target_train = full_train[:, 3]    
     target_test = full_test[:, 3]
+
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    predictor_test = scaler.fit_transform(predictor_test)
+    predictor_train = scaler.fit_transform(predictor_train)
     
     sampler = SamplerFactory.get_instance(sample_method, ratio=1)
     res_predictor_train, res_target_train = sampler.fit_sample(
