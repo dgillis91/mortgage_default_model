@@ -91,8 +91,8 @@ if __name__ == '__main__':
     scaler = MinMaxScaler(feature_range=(0, 1))
     model_data[:, 0:3] = scaler.fit_transform(model_data[:, 0:3])
     
-    # Pull out 90% for training. Ensure data is shuffled. 
-    full_train, full_test = train_test_split(model_data, train_size=.9)
+    # Pull out 90% for training. Ensure data is shuffled.
+    full_train, full_test = train_test_split(model_data, shuffle=True, test_size=.1)
     
     predictor_train = full_train[:, 0:3]
     predictor_test = full_test[:, 0:3]
