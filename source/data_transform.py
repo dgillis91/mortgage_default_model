@@ -30,7 +30,8 @@ def extract_performance_counts(performance_path, output, sep='|'):
         output, loan_dict, sep, [
             'loan_identifier', 'is_foreclosed',
             'no_0_past_due_months', 'no_1_past_due_months',
-            'no_2_past_due_months', 'no_3_past_due_months'
+            'no_2_past_due_months', 'no_3_past_due_months',
+            'age'
         ]
     )
 
