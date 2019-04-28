@@ -58,7 +58,7 @@ class SamplerFactory:
 
 
 if __name__ == '__main__':
-    sample_method = 'over'
+    sample_method = 'under'
     project_path = project_directory()
     config = get_config('standard_model')
     train_pct = .9
