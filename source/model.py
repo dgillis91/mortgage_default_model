@@ -17,6 +17,8 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
 from sklearn.base import BaseEstimator, TransformerMixin
 
+from sklearn.metrics import classification_report
+
 import numpy as np
 import pandas as pd
 
@@ -56,7 +58,7 @@ class SamplerFactory:
 
 
 if __name__ == '__main__':
-    sample_method = 'under'
+    sample_method = 'over'
     project_path = project_directory()
     config = get_config('standard_model')
     train_pct = .9
@@ -115,3 +117,8 @@ if __name__ == '__main__':
         epochs=16, verbose=1, batch_size=128,
         validation_data=(predictor_test, target_test)
     )
+
+    p = model.predict(predictor_test)
+    p_nominal = [1 if x > .5 else 0 for x in p]
+
+    print(classification_report(target_test, p_nominal))
