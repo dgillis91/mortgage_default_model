@@ -111,7 +111,7 @@ if __name__ == '__main__':
     model = Model(inputs=inputs, outputs=predictions)
     
     model.compile(
-        loss='binary_crossentropy', optimizer='sgd', metrics=['accuracy']
+        loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy']
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
