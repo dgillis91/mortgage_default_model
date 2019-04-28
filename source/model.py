@@ -94,10 +94,10 @@ if __name__ == '__main__':
     # Pull out 90% for training. Ensure data is shuffled.
     full_train, full_test = train_test_split(model_data, shuffle=True, test_size=.1)
     
-    predictor_train = full_train[:, 0:3]
-    predictor_test = full_test[:, 0:3]
-    target_train = full_train[:, 3]    
-    target_test = full_test[:, 3]
+    predictor_train = full_train[:, 0:4]
+    predictor_test = full_test[:, 0:4]
+    target_train = full_train[:, 4]
+    target_test = full_test[:, 4]
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     predictor_test = scaler.fit_transform(predictor_test)
@@ -108,7 +108,7 @@ if __name__ == '__main__':
         predictor_train, target_train
     )
     
-    inputs = Input(shape=(3,))
+    inputs = Input(shape=(4,))
     x = Dense(16, activation='relu')(inputs)
     x = Dense(16, activation='relu')(inputs)
     predictions = Dense(1, activation='sigmoid')(x)
