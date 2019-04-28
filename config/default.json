@@ -69,7 +69,8 @@
         "no_0_past_due_months", 
         "no_1_past_due_months",
         "no_2_past_due_months", 
-        "no_3_past_due_months"
+        "no_3_past_due_months",
+        "age"
     ],
     "num_predictors": [
         "original_combined_ltv",
