@@ -43,8 +43,6 @@
         "original_interest_rate",
         "original_upb",
         "original_loan_term",
-        "origination_date",
-        "first_payment_date",
         "original_ltv",
         "original_combined_ltv",
         "number_of_borrowers",
@@ -57,10 +55,6 @@
         "occupancy_type",
         "property_state",
         "zip_code",
-        "primary_mortgage_insurance_percentage",
-        "product_type",
-        "co_borrower_credit_score_at_origination",
-        "mortgage_insurance_type",
         "relocation_mortgage_indicator"
     ],
     "parsed_performance_headers": [

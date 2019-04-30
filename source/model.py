@@ -15,10 +15,11 @@ from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
 from keras.utils import plot_model #TODO: Try this out
 
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
+from sklearn.ensemble import RandomForestRegressor
 
 from sklearn.base import BaseEstimator, TransformerMixin
 

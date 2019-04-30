@@ -10,7 +10,9 @@ import os
 def project_directory():
     parent, folder_name = os.path.split(__file__)
     project_path = 'mortgage_default_model'
+  
     
+
     while folder_name != project_path:
         parent, folder_name = os.path.split(parent)
     return os.path.join(parent, folder_name)
