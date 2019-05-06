@@ -72,7 +72,10 @@ training instances.
 
 For the KNN model, we tested models with k in the range 3, 20. 
 
-In addition, we tested sampling ratios between .1 and 1. 
+In addition, we tested sampling ratios between .1 and 1. Testing indicates that
+the equilibrium is found between recall for the classes at .8. 
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/knn_samling_ratio_recall.png)
 
 ### Deep Learning
 
