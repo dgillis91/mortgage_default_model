@@ -1,25 +1,81 @@
 # mortgage_default_model
-Project to compare various models for mortgage default prediction.
 
-For the data set, we want to start with all of the acquisition data, the 
-number of 0, 1, 2, 3 month delinquencies, whether the loan was foreclosed. 
-To determine whether the property was foreclosed on, we are going to use the
-foreclosure date. It's worth noting that this is the date the property went to
-sale. This DOES NOT work for REO property. Likely in the future, we will need
-to update the logic for this to include REO. 
+## Introduction
 
-## TODO:
-* Update Extractor module to take arguments. For example, we need an arg for
-whether to remove the zip files when we extract.
-* Try with a few different model types. Document the things I've tried already,
-and replicate them.
-* Recreate performance counts from the last implementation of FNMA model.
-* Train random forest model. 
-* Train KNN model. 
-* Rebuild Neural net without one hot encoding of the target. 
-* Confusion matrix.
-* Look at potentially modeling shorter delinquencies. 
-* Create more boxenplots. 
+This is a project to compare various models for predicting serious 
+mortgage default. The entry level model is a multivariate logistic 
+regression model. In addition, we implemented a KNN model, and a 
+more complex neural network. We find that, with the data used for
+the task, more advanced neural network topologies have not led to
+a substantial increase in prediction. With that in mind, other texts
+have indicated that, with additional data, it is possible to predict
+non linear decision boundaries with deep learning. 
+
+## Data
+
+For this project, we are using FNMA's Single Family Loan Performance
+Data. FNMA publishes quarterly data for each year. The data consists
+of two files - one for acquisitions, and one for performance. The 
+acquisition file contains information on a loan at the time it was
+originated. The performance file has a monthly history of loan 
+performance. For this project, we are using Q4 2007. 
+
+While there are additional sources of data, such as FHA and FHLMC, 
+we choose to work with this mostly homogeneous data set. 
+
+### Transformations
+
+All data transformations are maintained in data_transform.py. From
+the performance file, we compute a few features - only two of which
+are used. We have the number of times a loan was 0, 1, 2, and 3 
+payments due. We've also computed whether the loan went to 
+foreclosure, and the number of reporting periods the loan is
+present. Note that a loan going to foreclosure does not necessarily
+mean that the property was sold, or deeded back to the investor. 
+The foreclosure status is computed based on the date the first
+legal action occurs, at which point, a borrower can still reinstate.
+
+Once the features are extracted from the performance file, they are
+joined back to the acquisition data, yielding one record for each
+loan. 
+
+For the predictors chosen in the final model, we impute the mean over
+nulls.
+
+## Model
+
+### Overview
+
+We've chosen to use loan-to-value, debt-to-income, and borrower
+credit score as predictors. Indeed, much research indicates that
+these features are highly predictive. [Cooper (2018)][1] presents 
+a section detailing this. In addition, training a Random Forest 
+model for feature subset selection coincides with these results.
+For details, see my repository, [here][2].
+
+For all models, class imbalance is a concern. As demonstrated
+below, most accounts have not been referred to foreclosure.
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/fc_stat_freq.png)
+
+To address the issue, we implement over & under sampling. Testing
+indicated that under-sampling was more successful; however, the
+sampling ratio varied. In addition, it is important to measure
+model success on metrics such as precision and recall, instead of
+model accuracy. With such a class imbalance, any model can reach
+over 90% accuracy by simply predicting non-default for all 
+training instances.
+
+### Training Data
+
+### K-Nearest-Neighbors
+
+### Deep Learning
+
+### Random Forest
+
+## Lessons Learned
+* Appify, etc.
 
 
 ## Resources
@@ -29,5 +85,5 @@ and replicate them.
 * https://loanperformancedata.fanniemae.com/lppub-docs/FNMA_SF_Loan_Performance_FAQs.pdf
 * http://www.fanniemae.com/portal/funding-the-market/data/loan-performance-data.html
 
-## References
-Data Obtained From FNMA and not published through this project.
+[1]: https://www.researchgate.net/publication/330303425_A_Deep_Learning_Prediction_Model_for_Mortgage_Default_A_Deep_Learning_Prediction_Model_for_Mortgage_Default "Cooper, Michael. (2018). A Deep Learning Prediction Model for Mortgage Default A Deep Learning Prediction Model for Mortgage Default. 10.13140/RG.2.2.21506.12487."
+[2]: https://github.com/dgillis91/fnma_loan_performance "Random Forest Model over FNMA Mortgage Default Data"
