@@ -68,7 +68,11 @@ training instances.
 
 ### Training Data
 
-### K-Nearest-Neighbors
+### K-Nearest-Neighbors (KNN)
+
+For the KNN model, we tested models with k in the range 3, 20. 
+
+In addition, we tested sampling ratios between .1 and 1. 
 
 ### Deep Learning
 
