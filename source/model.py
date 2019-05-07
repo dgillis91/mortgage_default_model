@@ -103,7 +103,7 @@ if __name__ == '__main__':
     predictor_test = scaler.fit_transform(predictor_test)
     predictor_train = scaler.fit_transform(predictor_train)
     
-    sampler = SamplerFactory.get_instance(sample_method, ratio=.5)
+    sampler = SamplerFactory.get_instance(sample_method, ratio=1)
     res_predictor_train, res_target_train = sampler.fit_sample(
         predictor_train, target_train
     )
