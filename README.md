@@ -6,10 +6,8 @@ This is a project to compare various models for predicting serious
 mortgage default. The entry level model is a multivariate logistic 
 regression model. In addition, we implemented a KNN model, and a 
 more complex neural network. We find that, with the data used for
-the task, more advanced neural network topologies have not led to
-a substantial increase in prediction. With that in mind, other texts
-have indicated that, with additional data, it is possible to predict
-non linear decision boundaries with deep learning. 
+the task, more advanced neural network topologies lead to better
+performance in prediction. 
 
 ## Data
 
@@ -68,6 +66,17 @@ over 90% accuracy by simply predicting non-default for all
 training instances.
 
 ### Training Data
+This was the place where I likely learned the most. There are
+a few things that need to be done to keep the training & testing
+data independent. 
+
+First, when scaling your data, it should be
+done independently on the training & testing data. In this case, 
+we used min-max-scaling. 
+
+Next, I chose to under sample after splitting the training/testing
+data. This results in some wasted data; however, it allows you to
+test on a sample with a distribution similar to the population. 
 
 ### K-Nearest-Neighbors (KNN)
 
@@ -92,10 +101,17 @@ selection of k.
 
 ### Deep Learning
 
-For the simple, logistic regression model, 
+We proceed to show that a deep learning model leads to 
+increased performance over the classic logistic regression
+model.
 
-For the complex model, we continue to see that increasing the
-the sample ratio decreases the recall for the majority
+The logistic regression model is created using a single
+sigmoid perceptron. The model we settled on for deep 
+learning consists of two hidden layers, each with 
+64 nodes, and a single sigmoid output layer.
+
+For the complex model, we to see that increasing the
+sample ratio decreases the recall for the majority
 class, and increases the recall for the minority class. 
 Interestingly, increasing the sampling ratio decrease the 
 precision for the minority class, and increase it for the
@@ -113,8 +129,51 @@ majority.
 ![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/complex_model_prec_recall_p10.png)
 *ratio = 1*
 
+For the simple, logistic regression model, we see similar
+results for the sampling ratio. However, the complex model
+performs substantially better as the dataset becomes more
+imbalanced. 
+
+For comparison, we have the results of the log model,
+followed by the more complex topology with a sampling
+rate of .1.
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/log_model_prec_recall_p1.png)
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/complex_model_prec_recall_p1.png)
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/log_model_prec_recall_p5.png)
+
+*ratio = .5*
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/log_model_prec_recall_p7.png)
+
+*ratio = .7*
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/log_model_prec_recall_p10.png)
+
+*ratio = 1*
+
+In addition, we see that the complex model has better
+precision & recall scores in most ranges. 
+
 ## Lessons Learned
-* Appify, etc.
+* It is best to keep your configurations in a file. I'm
+fond of the JSON format for ease of use, though it has some
+drawbacks. 
+* When you run a model on a configuration file, output the
+configurations and the results to a unique file. This
+allows you to compare the results across topologies and 
+hyperparameters. You may also choose to write your results
+to a simple database. sqlite has a simple python api, though
+it is single user.
+* Keep a history of actions you take in tuning models. It is
+very difficult to go back and retrace your steps. 
+* Use pipelines where possible. They make transformations much 
+more legible. For an example, we trained an arbitrarily 
+complicated model with some additional features. The
+transforms for this model can be viewed in model_pipeline.py.
+The model itself is in newmodel.py. For a detailed analysis,
+look into sklearn.pipeline.
 
 
 ## Resources
