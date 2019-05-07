@@ -46,12 +46,13 @@ nulls.
 
 ### Overview
 
-We've chosen to use loan-to-value, debt-to-income, and borrower
-credit score as predictors. Indeed, much research indicates that
-these features are highly predictive. [Cooper (2018)][1] presents 
-a section detailing this. In addition, training a Random Forest 
-model for feature subset selection coincides with these results.
-For details, see my repository, [here][2].
+We've chosen to use loan-to-value, debt-to-income, age, and 
+borrower credit score as predictors. Indeed, much research 
+indicates that these features are highly predictive. 
+[Cooper (2018)][1] presents a section detailing this. In 
+addition, training a Random Forest model for feature subset 
+selection coincides with these results. For details, see my 
+repository, [here][2].
 
 For all models, class imbalance is a concern. As demonstrated
 below, most accounts have not been referred to foreclosure.
@@ -72,14 +73,45 @@ training instances.
 
 For the KNN model, we tested models with k in the range 3, 20. 
 
-In addition, we tested sampling ratios between .1 and 1. Testing indicates that
-the equilibrium is found between recall for the classes at .8. 
+In addition, we tested sampling ratios between .1 and 1. Testing 
+indicates that the equilibrium is found between recall for the 
+classes at .8. 
 
 ![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/knn_samling_ratio_recall.png)
 
+At this ratio, we have precision of 20%, and recall of 68% for 
+the default class. For non-default, the results are 95.95%, and
+70%, respectively. 
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/knn_precision_recall_table_sample_rate.png)
+
+Testing with a sampling ratio of 0.8 indicates that 19 is a good
+selection of k. 
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/knn_k_selection.png)
+
 ### Deep Learning
 
-### Random Forest
+For the simple, logistic regression model, 
+
+For the complex model, we continue to see that increasing the
+the sample ratio decreases the recall for the majority
+class, and increases the recall for the minority class. 
+Interestingly, increasing the sampling ratio decrease the 
+precision for the minority class, and increase it for the
+majority.
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/complex_model_prec_recall_p1.png)
+*ratio = .1*
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/complex_model_prec_recall_p5.png)
+*ratio = .5*
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/complex_model_prec_recall_p7.png)
+*ratio = .7*
+
+![Alt](https://raw.githubusercontent.com/dgillis91/mortgage_default_model/master/analysis/complex_model_prec_recall_p10.png)
+*ratio = 1*
 
 ## Lessons Learned
 * Appify, etc.
