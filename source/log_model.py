@@ -9,6 +9,7 @@ import os
 
 from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
+from keras.optimizers import SGD
 
 from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import RandomUnderSampler
@@ -103,7 +104,7 @@ if __name__ == '__main__':
     predictor_test = scaler.fit_transform(predictor_test)
     predictor_train = scaler.fit_transform(predictor_train)
     
-    sampler = SamplerFactory.get_instance(sample_method, ratio=.1)
+    sampler = SamplerFactory.get_instance(sample_method, ratio=.8)
     res_predictor_train, res_target_train = sampler.fit_sample(
         predictor_train, target_train
     )
@@ -111,13 +112,13 @@ if __name__ == '__main__':
     inputs = Input(shape=(4,))
     x = Dense(1, activation='sigmoid')(inputs)
     model = Model(inputs=inputs, outputs=x)
-    
+
     model.compile(
-        loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy']
+        loss='binary_crossentropy', optimizer='sgd', metrics=['accuracy']
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=32, verbose=1, batch_size=64,
+        epochs=128, verbose=1, batch_size=64,
         validation_data=(predictor_test, target_test)
     )
 
@@ -125,3 +126,14 @@ if __name__ == '__main__':
     p_nominal = [1 if x > .5 else 0 for x in p]
 
     print(classification_report(target_test, p_nominal))
+    print('FEATURE IMPORTANCES')
+    weights = model.get_weights()[0] * res_predictor_train.std()
+    c_predictors = config['predictors']
+    for header, importance in zip(c_predictors, weights):
+        print('[+] {}: {:.4f}'.format(header, importance[0]))
+
+    import matplotlib.pyplot as plt
+    plt.plot(history.history['loss'])
+    plt.show()
+    plt.plot(history.history['acc'])
+    plt.show()

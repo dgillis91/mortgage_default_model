@@ -9,6 +9,7 @@ import os
 
 from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
+from keras.optimizers import SGD
 
 from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import RandomUnderSampler
@@ -24,6 +25,7 @@ import pandas as pd
 
 from dirutil import project_directory
 from configfile import get_config
+from SGDRScheduler import SGDRScheduler
 
 
 def clean_nulls(df, cols):
@@ -103,7 +105,7 @@ if __name__ == '__main__':
     predictor_test = scaler.fit_transform(predictor_test)
     predictor_train = scaler.fit_transform(predictor_train)
     
-    sampler = SamplerFactory.get_instance(sample_method, ratio=1)
+    sampler = SamplerFactory.get_instance(sample_method, ratio=0.7)
     res_predictor_train, res_target_train = sampler.fit_sample(
         predictor_train, target_train
     )
@@ -113,17 +115,23 @@ if __name__ == '__main__':
     x = Dense(64, activation='relu')(x)
     predictions = Dense(1, activation='sigmoid')(x)
     model = Model(inputs=inputs, outputs=predictions)
-    
+
     model.compile(
-        loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy']
+        loss='binary_crossentropy', optimizer='sgd', metrics=['accuracy']
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=32, verbose=1, batch_size=64,
-        validation_data=(predictor_test, target_test)
+        epochs=128, verbose=1, batch_size=64,
+        validation_data=(predictor_test, target_test)#,
+        #callbacks=[schedule]
     )
 
     p = model.predict(predictor_test)
     p_nominal = [1 if x > .5 else 0 for x in p]
 
     print(classification_report(target_test, p_nominal))
+    import matplotlib.pyplot as plt
+    plt.plot(history.history['loss'])
+    plt.show()
+    plt.plot(history.history['acc'])
+    plt.show()
