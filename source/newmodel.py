@@ -13,7 +13,7 @@ from dirutil import project_directory
 from transformer import SamplerFactory
 
 from keras.models import Model
-from keras.layers import Dense, BatchNormalization, Input
+from keras.layers import Dense, Input
 
 from sklearn.model_selection import train_test_split
 

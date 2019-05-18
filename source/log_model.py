@@ -8,11 +8,10 @@ Created on Sun Mar 17 19:41:06 2019
 import os
 
 from keras.models import Model
-from keras.layers import Dense, BatchNormalization, Input
-from keras.optimizers import SGD
+from keras.layers import Dense, Input
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
 
 from sklearn.metrics import classification_report, auc, roc_curve
 
@@ -43,9 +42,6 @@ if __name__ == '__main__':
     
     # Pull out the predictors & target
     model_data = performance_data[predictors + [target]]
-    # del performance_data
-    
-    # Apply Transforms
 
     # Clean nulls and map f/c stat to bits
     clean_nulls(model_data, predictors)
@@ -54,9 +50,6 @@ if __name__ == '__main__':
     
     # split train and test data
     model_data = model_data.values.astype(np.float32)
-    # Scale predictors.
-    # scaler = MinMaxScaler(feature_range=(0, 1))
-    # model_data[:, 0:3] = scaler.fit_transform(model_data[:, 0:3])
     
     # Pull out 90% for training. Ensure data is shuffled.
     full_train, full_test = train_test_split(model_data, shuffle=True, test_size=.1)
