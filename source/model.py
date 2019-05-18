@@ -78,7 +78,7 @@ if __name__ == '__main__':
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=128, verbose=1, batch_size=64,
+        epochs=32, verbose=1, batch_size=64,
         validation_data=(predictor_test, target_test)#,
         #callbacks=[schedule]
     )
