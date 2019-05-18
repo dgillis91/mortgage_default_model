@@ -18,7 +18,7 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, auc, roc_curve
 
 import numpy as np
 import pandas as pd
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=128, verbose=1, batch_size=64,
+        epochs=32, verbose=1, batch_size=64,
         validation_data=(predictor_test, target_test)
     )
 
@@ -137,3 +137,6 @@ if __name__ == '__main__':
     plt.show()
     plt.plot(history.history['acc'])
     plt.show()
+    fpr, tpr, _ = roc_curve(target_test, p_nominal)
+    print('AUC')
+    print(auc(fpr, tpr))
