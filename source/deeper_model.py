@@ -12,11 +12,7 @@ from keras.layers import Dense, BatchNormalization, Input
 from keras.optimizers import SGD
 
 from sklearn.model_selection import train_test_split
-from imblearn.under_sampling import RandomUnderSampler
-from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
-
-from sklearn.base import BaseEstimator, TransformerMixin
 
 from sklearn.metrics import classification_report
 
@@ -25,38 +21,7 @@ import pandas as pd
 
 from dirutil import project_directory
 from configfile import get_config
-from SGDRScheduler import SGDRScheduler
-
-
-def clean_nulls(df, cols):
-    for col in cols:
-        df[col].fillna((df[col].mean()), inplace=True)
-
-
-class DataFrameSelector(BaseEstimator, TransformerMixin):
-    def __init__(self, attribute_names):
-        self.attribute_names = attribute_names
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        return X[self.attribute_names].values
-
-
-class SamplerFactory:
-    __sampler = {
-        'over': SMOTE,
-        'under': RandomUnderSampler
-    }
-
-    @staticmethod
-    def get_instance(sample_method, *args, **kwargs):
-        sampler = SamplerFactory.__sampler.get(sample_method)
-        if sampler is not None:
-            return sampler(*args, **kwargs)
-        else:
-            raise ValueError('invalid parameter: {}'.format(sample_method))
+from transformer import clean_nulls, SamplerFactory
 
 
 if __name__ == '__main__':

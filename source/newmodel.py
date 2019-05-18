@@ -10,23 +10,13 @@ import numpy as np
 import os
 from configfile import get_config
 from dirutil import project_directory
+from transformer import SamplerFactory
 
 from keras.models import Model
 from keras.layers import Dense, BatchNormalization, Input
 
 from sklearn.model_selection import train_test_split
 
-from imblearn.under_sampling import RandomUnderSampler
-from imblearn.over_sampling import SMOTE
-
-class SamplerFactory:
-    def get_instance(sample_method, *args, **kwargs):
-        if sample_method == 'over':
-            return SMOTE(*args, **kwargs)
-        if sample_method == 'under':
-            return RandomUnderSampler(*args, **kwargs)
-        else:
-            raise ValueError('invalid parameter: {}'.format(sample_method))
 
 if __name__ == '__main__':
     project_path = project_directory()
