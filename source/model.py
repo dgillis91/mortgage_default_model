@@ -8,10 +8,11 @@ Created on Sun Mar 17 19:41:06 2019
 import os
 
 from keras.models import Model
-from keras.layers import Dense, Input
+from keras.layers import Dense, Input, BatchNormalization
+import keras
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.metrics import classification_report, auc, roc_curve
 
 import numpy as np
@@ -58,28 +59,50 @@ if __name__ == '__main__':
     target_train = full_train[:, 4]
     target_test = full_test[:, 4]
 
-    scaler = MinMaxScaler(feature_range=(0, 1))
+    scaler = StandardScaler()
     predictor_test = scaler.fit_transform(predictor_test)
     predictor_train = scaler.fit_transform(predictor_train)
     
-    sampler = SamplerFactory.get_instance(sample_method, ratio=0.7)
-    res_predictor_train, res_target_train = sampler.fit_sample(
-        predictor_train, target_train
-    )
-    
+    sampler = SamplerFactory.get_instance(sample_method, ratio=.7)
+    #res_predictor_train, res_target_train = sampler.fit_sample(
+    #    predictor_train, target_train
+    #)
+
+    res_predictor_train, res_target_train = predictor_train, target_train
+    res_target_train = res_target_train.astype(int)
+
+    counts = np.bincount(res_target_train)
+
+    weight_for_0 = 1. / counts[0]
+    weight_for_1 = 1. / counts[1]
+
+    weights = {
+        1: .9,
+        0: .1
+    }
+
     inputs = Input(shape=(4,))
     x = Dense(64, activation='relu')(inputs)
+    x = Dense(64, activation='relu')(x)
+    x = Dense(64, activation='relu')(x)
+    x = Dense(64, activation='relu')(x)
     x = Dense(64, activation='relu')(x)
     predictions = Dense(1, activation='sigmoid')(x)
     model = Model(inputs=inputs, outputs=predictions)
 
+    m = [
+        'acc'
+    ]
+
     model.compile(
-        loss='binary_crossentropy', optimizer='sgd', metrics=['accuracy']
+        loss='binary_crossentropy', optimizer='sgd',
+        metrics=m
     )
     history = model.fit(
         res_predictor_train, res_target_train, 
-        epochs=32, verbose=1, batch_size=64,
-        validation_data=(predictor_test, target_test)#,
+        epochs=20, verbose=1, batch_size=2048,
+        validation_data=(predictor_test, target_test),
+        class_weight=weights
         #callbacks=[schedule]
     )
 
